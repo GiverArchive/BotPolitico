@@ -3,6 +3,7 @@ package me.giverplay.bots.listener;
 import me.giverplay.bots.TrumpBot;
 import me.giverplay.bots.command.CommandHandler;
 import me.giverplay.bots.command.trump.AloBolsonaroCommand;
+import me.giverplay.bots.command.trump.EmbedCommand;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -25,6 +26,7 @@ public class TrumpMessageListener extends ListenerAdapter
   private void registerCommands()
   {
     handler.registerCommand(new AloBolsonaroCommand(bot));
+    handler.registerCommand(new EmbedCommand(bot));
   }
   
   @Override
