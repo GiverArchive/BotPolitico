@@ -8,17 +8,16 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import java.util.HashMap;
 
 public class RegistroCommand extends Command
 {
-  private HashMap<String, Registro> registros = new HashMap<>();
+  private FocaReactionListener register;
   
   public RegistroCommand(FocaBot bot)
   {
     super("registro", bot);
     
-    bot.getJDA().addEventListener(new FocaReactionListener());
+    bot.getJDA().addEventListener(register = new FocaReactionListener());
   }
   
   @Override
@@ -29,12 +28,12 @@ public class RegistroCommand extends Command
     if(!id.equals("387674761746186260") && !id.equals("645458333972561931"))
       return;
     
-    if(registros.containsKey(id))
+    if(register.isRegistering(sender.getId()))
     {
-      //channel.sendMessage(sender.getAsMention() + " Seu registro já está em andamento.").queue();
-      //return;
+      channel.sendMessage(sender.getAsMention() + " Você já está se registrando.").queue();
+      return;
     }
     
-    registros.put(id, new Registro(channel, sender));
+    register.start(channel, sender);
   }
 }
