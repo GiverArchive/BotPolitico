@@ -1,6 +1,8 @@
 package me.giverplay.bots.listener;
 
 import me.giverplay.bots.TrumpBot;
+import me.giverplay.bots.command.CommandHandler;
+import me.giverplay.bots.command.trump.AloBolsonaroCommand;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -9,13 +11,20 @@ import org.jetbrains.annotations.NotNull;
 
 public class TrumpMessageListener extends ListenerAdapter
 {
+  private CommandHandler handler;
   private TrumpBot bot;
-  private String prefix;
   
-  public TrumpMessageListener(TrumpBot bot, String prefix)
+  public TrumpMessageListener(TrumpBot bot)
   {
-    this.prefix = prefix;
     this.bot = bot;
+    handler = bot.getCommandHandler();
+    
+    registerCommands();
+  }
+  
+  private void registerCommands()
+  {
+    handler.registerCommand(new AloBolsonaroCommand(bot));
   }
   
   @Override
@@ -29,5 +38,6 @@ public class TrumpMessageListener extends ListenerAdapter
       return;
     }
     
+    handler.dispatchCommand(event, bot);
   }
 }

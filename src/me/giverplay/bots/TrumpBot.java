@@ -1,5 +1,6 @@
 package me.giverplay.bots;
 
+import me.giverplay.bots.command.CommandHandler;
 import me.giverplay.bots.listener.TrumpMessageListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -13,26 +14,19 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TrumpBot
+public class TrumpBot extends Bot
 {
   private List<Activity> activities = new ArrayList<>();
   private Random random = new Random();
-  private JDA bot;
   
-  public TrumpBot(String token)
+  public TrumpBot(String token, CommandHandler handler)
   {
-    try
-    {
-      build(token);
-    }
-    catch(Throwable t)
-    {
-      System.out.println("Falha ao iniciar");
-      System.exit(1);
-    }
+    super(token, handler, "t.");
     
     populatePresence();
     updatePresence();
+    
+    bot.addEventListener(new TrumpMessageListener(this));
     
     new Timer().schedule(new TimerTask() {
       @Override
@@ -41,15 +35,6 @@ public class TrumpBot
         updatePresence();
       }
     }, 10, 30000);
-  }
-  
-  private void build(String token) throws LoginException, InterruptedException
-  {
-    bot = new JDABuilder()
-        .setToken(token)
-        .addEventListeners(new TrumpMessageListener(this, "trump"))
-        .build()
-        .awaitReady();
   }
   
   public void updatePresence()
@@ -64,8 +49,7 @@ public class TrumpBot
         Activity.listening("manifestantes gritando."),
         Activity.of(Activity.ActivityType.STREAMING, "Make america great again", "https://twitch.tv/GiverPlay007"),
         Activity.watching("televisão."),
-        Activity.playing("dinheiro fora"),
-        Activity.playing("Minecraft"),
+        Activity.playing("dinheiro fora."),
         Activity.watching("Alô. É o Bolsonaro?")
     ));
   }

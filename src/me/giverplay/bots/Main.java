@@ -1,9 +1,13 @@
 package me.giverplay.bots;
 
+import me.giverplay.bots.command.CommandHandler;
+
 public class Main
 {
+  public static final String OWNER = "387674761746186260";
   private static String trumpToken;
   
+  private CommandHandler handler = new CommandHandler();
   private TrumpBot trumpBot;
   
   public static void main(String[] args)
@@ -18,6 +22,6 @@ public class Main
   
   public Main()
   {
-    trumpBot = new TrumpBot(trumpToken);
+    trumpBot = new TrumpBot(trumpToken, handler);
   }
 }
