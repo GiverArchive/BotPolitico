@@ -1,5 +1,6 @@
-package me.giverplay.bots;
+package me.giverplay.bots.trump;
 
+import me.giverplay.bots.Bot;
 import me.giverplay.bots.command.CommandHandler;
 import me.giverplay.bots.listener.TrumpMessageListener;
 import net.dv8tion.jda.api.JDA;

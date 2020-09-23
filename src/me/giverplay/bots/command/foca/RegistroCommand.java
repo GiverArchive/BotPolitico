@@ -1,23 +1,23 @@
-package me.giverplay.bots.command.trump;
+package me.giverplay.bots.command.foca;
 
-import me.giverplay.bots.TrumpBot;
+import me.giverplay.bots.foca.FocaBot;
 import me.giverplay.bots.command.Command;
-import me.giverplay.bots.command.trump.registro.ListenerReaction;
-import me.giverplay.bots.command.trump.registro.Registro;
+import me.giverplay.bots.listener.FocaReactionListener;
+import me.giverplay.bots.foca.Registro;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.HashMap;
 
-public class EmbedCommand extends Command
+public class RegistroCommand extends Command
 {
   private HashMap<String, Registro> registros = new HashMap<>();
   
-  public EmbedCommand(TrumpBot bot)
+  public RegistroCommand(FocaBot bot)
   {
     super("registro", bot);
-    bot.getJDA().addEventListener(new ListenerReaction(this));
+    bot.getJDA().addEventListener(new FocaReactionListener());
   }
   
   @Override
