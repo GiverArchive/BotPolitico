@@ -7,8 +7,9 @@ import me.giverplay.bots.trump.TrumpBot;
 public class Main
 {
   public static final String OWNER = "387674761746186260";
-  private static String trumpToken;
-  private static String focaToken;
+  
+  private static final String TRUMP = Token.TRUMP;
+  private static final String FOCA = Token.FOCA;
   
   private CommandHandler handler = new CommandHandler();
   private TrumpBot trumpBot;
@@ -16,18 +17,12 @@ public class Main
   
   public static void main(String[] args)
   {
-    if(args.length < 2)
-      return;
-    
-    trumpToken = args[0];
-    focaToken = args[1];
-    
     new Main();
   }
   
   public Main()
   {
-    trumpBot = new TrumpBot(trumpToken, handler);
-    focaBot = new FocaBot(focaToken, handler);
+    trumpBot = new TrumpBot(TRUMP, handler);
+    focaBot = new FocaBot(FOCA, handler);
   }
 }

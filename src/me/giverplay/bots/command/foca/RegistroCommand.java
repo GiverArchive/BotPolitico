@@ -17,6 +17,7 @@ public class RegistroCommand extends Command
   public RegistroCommand(FocaBot bot)
   {
     super("registro", bot);
+    
     bot.getJDA().addEventListener(new FocaReactionListener());
   }
   
