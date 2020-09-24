@@ -1,7 +1,9 @@
 package me.giverplay.bots.listener;
 
+import me.giverplay.bots.foca.FocaBot;
 import me.giverplay.bots.foca.Registro;
-import net.dv8tion.jda.api.entities.Message;
+import me.giverplay.bots.foca.emojis.Emojis;
+import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
@@ -13,7 +15,13 @@ import java.util.HashMap;
 
 public class FocaReactionListener extends ListenerAdapter
 {
-  private HashMap<String, Registro> registros = new HashMap<>();
+  private final HashMap<String, Registro> registros = new HashMap<>();
+  private final FocaBot bot;
+  
+  public FocaReactionListener(FocaBot bot)
+  {
+    this.bot = bot;
+  }
   
   public boolean isRegistering(String id)
   {
@@ -43,6 +51,11 @@ public class FocaReactionListener extends ListenerAdapter
     }
     
     reg.addEmote(event.getReactionEmote());
+  
+    if(Emojis.NEXT.match(event.getReactionEmote()))
+    {
+      reg.advance();
+    }
   }
   
   @Override
@@ -61,7 +74,7 @@ public class FocaReactionListener extends ListenerAdapter
     {
       return;
     }
-  
+    
     reg.removeEmote(event.getReactionEmote());
   }
 }

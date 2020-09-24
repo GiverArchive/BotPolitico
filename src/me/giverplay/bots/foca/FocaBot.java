@@ -2,6 +2,7 @@ package me.giverplay.bots.foca;
 
 import me.giverplay.bots.Bot;
 import me.giverplay.bots.command.CommandHandler;
+import me.giverplay.bots.foca.emojis.Emoji;
 import me.giverplay.bots.listener.FocaMessageListener;
 import net.dv8tion.jda.api.entities.Activity;
 
@@ -18,6 +19,7 @@ public class FocaBot extends Bot
   {
     super(token, handler, "f.");
   
+    Emoji.setJDA(getJDA());
     getJDA().addEventListener(new FocaMessageListener(this));
   }
 }
