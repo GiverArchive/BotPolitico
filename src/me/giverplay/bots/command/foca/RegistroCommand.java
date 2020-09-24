@@ -17,17 +17,13 @@ public class RegistroCommand extends Command
   {
     super("registro", bot);
     
+    setOwnerCommand(true);
     bot.getJDA().addEventListener(register = new FocaReactionListener(bot));
   }
   
   @Override
   public void execute(JDA bot, TextChannel channel, User sender, String[] args)
   {
-    String id = sender.getId();
-    
-    if(!id.equals("387674761746186260") && !id.equals("645458333972561931"))
-      return;
-    
     if(register.isRegistering(sender.getId()))
     {
       channel.sendMessage(sender.getAsMention() + " Você já está se registrando.").queue();

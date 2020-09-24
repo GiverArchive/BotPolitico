@@ -1,12 +1,13 @@
 package me.giverplay.bots.command;
 
 import me.giverplay.bots.Bot;
+import me.giverplay.bots.Main;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class CommandHandler
@@ -22,16 +23,16 @@ public class CommandHandler
   {
     Message message = event.getMessage();
     String[] args = message.getContentRaw().split(" ");
-    
+  
     if(args.length == 0) return;
-    
+  
     String first = args[0].toLowerCase();
-    
+  
     if(!first.startsWith(bot.getPrefix())) return;
   
     args = Arrays.copyOfRange(args, 1, args.length);
     Command cmd = null;
-    
+  
     for(Command comm : commands)
     {
       if(!comm.getBot().equals(bot) || !comm.match(first)) continue;
@@ -39,6 +40,14 @@ public class CommandHandler
     }
     
     if(cmd == null) return;
+    
+    User user = message.getAuthor();
+    
+    if(cmd.isOwnerCommand() && !user.getId().equals(Main.OWNER))
+    {
+      message.getTextChannel().sendMessage(user.getAsMention() + "Bilú bilú bilú, ó a teteia").queue();
+      return;
+    }
     
     try
     {

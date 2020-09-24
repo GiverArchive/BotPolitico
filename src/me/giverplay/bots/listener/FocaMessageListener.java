@@ -1,6 +1,7 @@
 package me.giverplay.bots.listener;
 
 import me.giverplay.bots.command.CommandHandler;
+import me.giverplay.bots.command.foca.MonitorarCommand;
 import me.giverplay.bots.command.foca.RegistroCommand;
 import me.giverplay.bots.foca.FocaBot;
 import net.dv8tion.jda.api.entities.Message;
@@ -25,6 +26,7 @@ public class FocaMessageListener extends ListenerAdapter
   private void registerCommands()
   {
     handler.registerCommand(new RegistroCommand(bot));
+    handler.registerCommand(new MonitorarCommand(bot));
   }
   
   @Override
