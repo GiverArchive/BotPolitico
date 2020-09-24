@@ -8,6 +8,7 @@ import me.giverplay.bots.foca.states.Inicio;
 import me.giverplay.bots.foca.states.Langs;
 import me.giverplay.bots.foca.states.State;
 import me.giverplay.bots.foca.states.Works;
+import me.giverplay.bots.listener.FocaReactionListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -18,9 +19,13 @@ import net.dv8tion.jda.api.entities.User;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Registro
 {
+  private static final Timer timer = new Timer();
+  
   private final List<ReactionEmote> currentEmotes = new ArrayList<>();
   private final List<Emoji> finalEmotes = new ArrayList<>();
   
@@ -38,13 +43,15 @@ public class Registro
   
   private boolean advanceAllowed = false;
   
+  private FocaReactionListener register;
   private Message message;
   private State state = inicio;
   
-  public Registro(TextChannel channel, User user)
+  public Registro(TextChannel channel, User user, FocaReactionListener register)
   {
     this.channel = channel;
     this.user = user;
+    this.register = register;
     
     createRegister();
   }
@@ -80,17 +87,15 @@ public class Registro
         message.addReaction("\uD83D\uDDA5").queue();
         message.addReaction(Emojis.PLUGINS.getName()).queue();
         message.addReaction(Emojis.MODS.getName()).queue();
-        message.addReaction("\uD83D\uDC7E").queue();
+        message.addReaction("\uD83D\uDC7E").queue(f -> advanceAllowed = true);
       }
       
       if(finalEmotes.contains(Emojis.ARTISTA))
       {
         message.addReaction(Emojis.SPRITES.getName()).queue();
         message.addReaction(Emojis.SONOPLASTIA.getName()).queue();
-        message.addReaction(Emojis.MODELAGEM.getName()).queue();
+        message.addReaction(Emojis.MODELAGEM.getName()).queue(f -> advanceAllowed = true);
       }
-      
-      advanceAllowed = true;
     });
   }
   
@@ -110,9 +115,7 @@ public class Registro
       message.addReaction(Emojis.SWIFT.getName()).queue();
       message.addReaction("\uD83C\uDFAF").queue();
       message.addReaction(Emojis.LUA.getName()).queue();
-      message.addReaction(Emojis.GML.getName()).queue();
-      
-      advanceAllowed = true;
+      message.addReaction(Emojis.GML.getName()).queue(f -> advanceAllowed = true);
     });
   }
   
@@ -190,6 +193,14 @@ public class Registro
     {
       guild.addRoleToMember(guild.getMember(user), emoji.getRole(guild)).queue();
     }
+    
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run()
+      {
+        register.remove(Registro.this.user.getId());
+      }
+    }, 5000);
   }
   
   public void advance()

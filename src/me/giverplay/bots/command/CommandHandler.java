@@ -45,7 +45,8 @@ public class CommandHandler
     
     if(cmd.isOwnerCommand() && !user.getId().equals(Main.OWNER))
     {
-      message.getTextChannel().sendMessage(user.getAsMention() + "Bilú bilú bilú, ó a teteia").queue();
+      message.getTextChannel().sendMessage(user.getAsMention() + "Bilú bilú bilú, ó a teteia." +
+          "Ainda não resolvi o seu problema").queue();
       return;
     }
     

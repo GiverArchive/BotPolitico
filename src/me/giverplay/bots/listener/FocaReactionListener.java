@@ -3,7 +3,6 @@ package me.giverplay.bots.listener;
 import me.giverplay.bots.foca.FocaBot;
 import me.giverplay.bots.foca.Registro;
 import me.giverplay.bots.foca.emojis.Emojis;
-import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
@@ -30,7 +29,7 @@ public class FocaReactionListener extends ListenerAdapter
   
   public void start(TextChannel channel, User user)
   {
-    registros.put(user.getId(), new Registro(channel, user));
+    registros.put(user.getId(), new Registro(channel, user, this));
   }
   
   @Override
@@ -76,5 +75,10 @@ public class FocaReactionListener extends ListenerAdapter
     }
     
     reg.removeEmote(event.getReactionEmote());
+  }
+  
+  public void remove(String registro)
+  {
+    registros.remove(registro);
   }
 }
